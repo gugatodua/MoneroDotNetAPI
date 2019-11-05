@@ -41,6 +41,7 @@ namespace Monero_API
             }
 
             app.UseHttpsRedirection();
+
             app.UseMvc();
         }
     }
