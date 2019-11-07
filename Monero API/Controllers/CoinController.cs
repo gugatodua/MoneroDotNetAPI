@@ -14,7 +14,7 @@ namespace Monero_API.Controllers {
 
     public class CoinController : Controller {
 
-        public CoinController () {}
+        public CoinController () { }
 
         public static string Reverse (string s) {
             char[] charArray = s.ToCharArray ();
@@ -87,15 +87,27 @@ namespace Monero_API.Controllers {
 
             var x = result.ToString ();
 
+            var jsonstr = x.IndexOf ("\"txs_as_json\":");
+            //s2 - სრული JSON სტრინგი
+            string s2 = x.Trim ().Substring (jsonstr);
+            s2 = s2.Remove (0, 16);
+            s2 = s2.Replace ("\\n", "");
+            s2 = s2.Replace ("\\", "");
 
+            s2 = s2.Remove (0, 1);
+            System.Console.WriteLine(s2);
+            // if(s2.Contains("\"untrusted\"")){
+            //     var ind = s2.IndexOf("\"untrusted\"");
+            //     s2 = s2.Remove(ind);
+            //     s2= s2.Remove(s2.Length-7);
+            // }
 
-            // var options = new Transaction {
-            // };
+            // RootObject tr = JsonConvert.DeserializeObject<RootObject> (s2);
+            // System.Console.WriteLine(tr);
+            // System.Console.WriteLine("VIN : ",tr.vin);
+            // System.Console.WriteLine ("EXTRA:",tr.extra);
 
-            // var jsonString = File.ReadAllText ("my-model.json");
-            // var jsonModel = JsonSerializer.Deserialize<Transaction> (jsonString, options);
-
-            return result;
+            return x;
 
         }
 
