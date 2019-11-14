@@ -66,11 +66,10 @@ namespace Monero_API.Controllers {
         }
 
         [Route ("coin/gettx/{tx_hash}")]
-        //ეს უნდა აბრუნებდეს txpubkey-ს და output-ს
+        //ეს უნდა აბრუნებდეს txpubkey-ს და output-ს ანუ extra და vout/target/key
         public string GetTransactionDetails (string tx_hash) {
             //get_transactions
             var tx_str = "{\"txs_hashes\":[\"" + tx_hash + "\"],\"decode_as_json\":true}";
-
             var httpWebRequest = (HttpWebRequest) WebRequest.Create ("http://127.0.0.1:18081/get_transactions");
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
@@ -89,25 +88,25 @@ namespace Monero_API.Controllers {
 
             var jsonstr = x.IndexOf ("\"txs_as_json\":");
             //s2 - სრული JSON სტრინგი
-            string s2 = x.Trim ().Substring (jsonstr);
+            string s2 = x.Trim ().Substring (0);
             s2 = s2.Remove (0, 16);
             s2 = s2.Replace ("\\n", "");
             s2 = s2.Replace ("\\", "");
 
             s2 = s2.Remove (0, 1);
             System.Console.WriteLine(s2);
-            // if(s2.Contains("\"untrusted\"")){
-            //     var ind = s2.IndexOf("\"untrusted\"");
-            //     s2 = s2.Remove(ind);
-            //     s2= s2.Remove(s2.Length-7);
-            // }
+            if(s2.Contains("\"untrusted\"")){
+                var ind = s2.IndexOf("\"untrusted\"");
+                s2 = s2.Remove(ind);
+                s2= s2.Remove(s2.Length-8);
+            }
 
             // RootObject tr = JsonConvert.DeserializeObject<RootObject> (s2);
             // System.Console.WriteLine(tr);
             // System.Console.WriteLine("VIN : ",tr.vin);
             // System.Console.WriteLine ("EXTRA:",tr.extra);
 
-            return x;
+            return s2;
 
         }
 
@@ -117,10 +116,10 @@ namespace Monero_API.Controllers {
             //საბოლოოდ აქ ვინახავ ტრანზაქციებს
             string[] myTX;
             //ესენი ორობითში უნდა გადავიყვანო
-            var a = "6cb502c74cd7d93e441b5c04f482613e8c9623d79282ab22bacdce831cb02a05"; //private view key
-            var b = "117d466a6a3c67507d0913c37aab73c7481870beadef6135d9ae2c9b330cb603"; //private spend key
-            var B = "16b94297c334518487b7709c5c446808d446707a5608e68a3cf93b3589a2638e"; //public spend key
-            var A = "e93bf43c6eac1d9796e32bf8eb01c0a7b3112a5c5d1c27b550a30aa5aed5a779"; //public view key
+            var a = "ec68d01a7a41165a967344786a239c3f57eaca93818787e0c127da466e14a604"; //private view key
+            var b = "21af15b0478be723d6323f5cae179b1d6225f6ad79f8a07bd66163502eead20f"; //private spend key
+            var B = "8d02abba1e6759405169e081fd80ec7c1903df455bfc6c3129c187347e1c83f3"; //public spend key
+            var A = "cf1f1e621dd5679e7d219e906f30c894347472575d05b2945177bda0002393ab"; //public view key
 
             string[] G = { "0x58", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66" };
 
