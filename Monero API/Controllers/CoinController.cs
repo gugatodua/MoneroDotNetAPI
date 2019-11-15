@@ -37,7 +37,7 @@ namespace Monero_API.Controllers
         }
         //getblock უნდა გადავაკეთო getTxHashesFromBlock-ად. ჰეშები მინდა მარტო
         [Route("coin/getb/{height}")]
-        public string[] GetTransactionHashFromBlock(string height)
+        public string[] GetTransactionHashListFromBlock(string height)
         {
             var str = "{\"jsonrpc\":\"2.0\",\"id\":\"0\",\"method\":\"get_block\",\"params\":{\"height\":" + height + "}";
 
@@ -87,7 +87,7 @@ namespace Monero_API.Controllers
 
         [Route("coin/gettx/{tx_hash}")]
         //ეს უნდა აბრუნებდეს txpubkey-ს და output-ს ანუ extra და vout/target/key
-        public ReturningTransactionDetails GetTransactionDetails(string tx_hash)
+        public string GetTransactionDetails(string tx_hash)
         {
             //get_transactions
             var tx_str = "{\"txs_hashes\":[\"" + tx_hash + "\"],\"decode_as_json\":true}";
@@ -150,12 +150,12 @@ namespace Monero_API.Controllers
             dataOfVout = dataOfVout.Insert(0, "{");
             dataOfVout = dataOfVout.Insert(dataOfVout.Length, "}");
 
-            var voutData = JsonConvert.DeserializeObject<RootObject>(dataOfVout);
+          //  var voutData = JsonConvert.DeserializeObject<RootObject>(dataOfVout);
           
-            var voutList = voutData.vout;
-            toReturn.Vouts = voutList;
+            //var voutList = voutData.vout;
+           // toReturn.Vouts = voutList;
 
-            return toReturn;
+            return s2;
 
         }
 
@@ -173,17 +173,20 @@ namespace Monero_API.Controllers
 
             string[] G = { "0x58", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66", "0x66" };
 
-            var tx_hash_from_block = GetTransactionHashFromBlock("height_goes_here");
+            var tx_hash_list_from_block = GetTransactionHashListFromBlock("height_goes_here");
             var tx = GetTransactionDetails("hash_goes_here");
-            foreach (var tx_hash in tx_hash_from_block)
+
+            foreach (var tx_hash in tx_hash_list_from_block)
             {
-                var R = ""; //აქ მეთოდი უნდა მიენიჭოს. მეთოდი რომელიც public key-ს დააბრუნებს 
-                foreach (var i in tx)
-                {
-                    // i is output index you are checking
-                    //output is something you compare to see if it's yours
-                    //if( is_mine(output, R, i) ) { myTX.append(tx,output)} 
-                }
+                //var R = tx.Extra; //ეს extra არის გადასაკეთებელი. decoding უნდა
+                // foreach (var i in tx)
+                // {
+                //     // i is output index you are checking
+                //     //output is something you compare to see if it's yours
+                //     //if( is_mine(output, R, i) ) { myTX.append(tx,output)} 
+                // }
+
+                //foreach(var item in )
             }
             return "OK";
         }
