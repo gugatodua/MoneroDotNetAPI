@@ -12,18 +12,18 @@ public class Vin
     public Key key { get; set; }
 }
 
-public class Target
+public class Target2
 {
     public string key { get; set; }
 }
 
-public class Vout
+public class Vout3
 {
     public object amount { get; set; }
     public Target target { get; set; }
 }
 
-public class RootObject
+public class RootObject2
 {
     public int version { get; set; }
     public int unlock_time { get; set; }
