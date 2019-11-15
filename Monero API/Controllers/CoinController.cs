@@ -151,17 +151,10 @@ namespace Monero_API.Controllers
             dataOfVout = dataOfVout.Insert(dataOfVout.Length, "}");
 
             var voutData = JsonConvert.DeserializeObject<RootObject>(dataOfVout);
-            // foreach (var item in voutData.vout)
-            // {
-            //     System.Console.WriteLine(item.target.key);
-
-            //     //toReturn.Keys.Add(item.target.key);
-            // }
+          
             var voutList = voutData.vout;
-            foreach (var item in voutList)
-            {
+            toReturn.Vouts = voutList;
 
-            }
             return toReturn;
 
         }

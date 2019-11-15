@@ -28,7 +28,7 @@ public class RootObject:IEnumerable<Vout>
 }
 
 public class ReturningTransactionDetails{
-    public List<string> Keys { get; set; }
+    public List<Vout> Vouts { get; set; }
     public List<int> Extra { get; set; }
 
 }
